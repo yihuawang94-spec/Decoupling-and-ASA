@@ -23,20 +23,12 @@ if _rc {
 	confirm file "$maindirectory/1. Dofiles/0. Master.do"
 }
 glo dofiles       "$maindirectory/1. Dofiles"
-glo robust        "$dofiles/robustness"
 glo data          "$maindirectory/2. Data"
 glo output        "$maindirectory/3. Output"
-glo output_denom     "$output/Robustness - denominator"
-glo output_multinorm "$output/Robustness - two norms"
 
-foreach d in "$data" "$output" "$output/Supplementary" ///
-	"$output_denom" "$output_denom/Supplementary" ///
-	"$output_multinorm" "$output_multinorm/Supplementary" {
+foreach d in "$data" "$output" "$output/Supplementary" {
 	cap mkdir "`d'"
 }
-
-* Set to 0 to reproduce only the figures reported in the paper
-glo run_robustness = 1
 
 *** Graph styling (user-written packages from SSC; installed if missing) ***
 cap which grstyle
@@ -143,96 +135,3 @@ qui run "$dofiles/P3.do"
 }
 
 qui run "$dofiles/P3 analysis.do"	// Figures 4bi, 4bii, 4biii
-
-if $run_robustness == 0 exit
-
-*******************************************************************************
-*** Robustness: denominator of preferred conformity (not reported in paper) ***
-*******************************************************************************
-glo pop_firm		= 100
-
-foreach denom in 1 3 9 99 {
-
-glo denom			= `denom'
-
-foreach levels in $levels {
-
-clear all
-
-glo norm_strength_1	= 1.2
-glo norm_strength_2 = 0
-
-glo OI_lvl		 	= `levels' / 100
-glo OI_helper		= `levels'
-
-qui run "$robust/P2 robust denom.do"
-
-}
-
-qui run "$robust/P2 analysis robust denom.do"
-
-foreach levels in $levels {
-
-clear all
-
-glo norm_strength_1	= 2
-glo norm_strength_2 = 0
-
-glo OI_lvl		 	= `levels' / 100
-glo OI_helper		= `levels'
-
-qui run "$robust/P3 robust denom.do"
-
-}
-
-qui run "$robust/P3 analysis robust denom.do"
-
-}
-
-*******************************************************************************
-*** Robustness: two competing norms (not reported in paper) ***
-*******************************************************************************
-glo pop_firm		= 100
-
-glo cost 			= 1
-glo denom			= 5
-glo phi_std			= 4
-glo phi_1			= 0.1
-glo phi_2			= 0.5
-glo phi_3			= 2
-glo phi_4		 	= 3
-glo obs				= $phi_std * $pop_ind
-glo maxtime			= 20
-glo halftime		= 10
-
-foreach levels in $levels {
-
-clear all
-
-glo norm_strength_1	= 1.2
-glo norm_strength_2 = 0
-
-glo OI_lvl		 	= `levels' / 100
-glo OI_helper		= `levels'
-
-qui run "$robust/P2x.do"
-
-}
-
-qui run "$robust/P2x analysis.do"
-
-foreach levels in $levels {
-
-clear all
-
-glo norm_strength_1	= 2
-glo norm_strength_2 = 0
-
-glo OI_lvl		 	= `levels' / 100
-glo OI_helper		= `levels'
-
-qui run "$robust/P3x.do"
-
-}
-
-qui run "$robust/P3x analysis.do"

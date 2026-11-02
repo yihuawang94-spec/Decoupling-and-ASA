@@ -16,7 +16,7 @@ The code is written in Stata. It generates all simulated data from scratch, so t
 
 The master file creates `2. Data` (simulated datasets) and `3. Output` (figures as `.svg`). It installs three user-written packages from SSC if they are missing: `grstyle`, `palettes` and `colrspace`. They are used only for graph styling.
 
-**Run time.** The main runs simulate 1,000 firms per environment over 21 periods, so a full run can take several hours. For a quick test, set `glo pop_firm = 100` in the master file. To reproduce only the figures reported in the paper, set `glo run_robustness = 0`.
+**Run time.** The main runs simulate 1,000 firms per environment over 21 periods, so a full run can take several hours. For a quick test, set `glo pop_firm = 100` in the master file.
 
 **Randomness.** Each simulation file sets `set seed 123`, so results are reproducible run to run.
 
@@ -39,15 +39,6 @@ Each analysis file also writes extra panels to `3. Output/Supplementary`: the po
 **Reading the figures.**
 - In Figure 2, firm performance is shown relative to firms whose rank-and-file identify fully with the organization (β₂ = 1).
 - In Figure 4, firm performance and pro-normative beliefs are shown relative to firms with β₂ = 0.
-
-## Robustness checks (`1. Dofiles/robustness`)
-
-These checks are not reported in the paper. They use 100 firms per environment.
-
-| Files | Check | Output folder |
-|---|---|---|
-| `P2 robust denom.do`, `P3 robust denom.do`, and their analysis files | Replaces the constant 5 in each employee's preferred conformity, exp(φ)/(5 + exp(φ)), with 1, 3, 9 and 99 | `3. Output/Robustness - denominator` |
-| `P2x.do`, `P3x.do`, and their analysis files | Two competing norms: the focal norm erodes after period 10 while a rival norm gains pressure; belief environments ν = 0.1, 0.5, 2 and 3 | `3. Output/Robustness - two norms` |
 
 ## Parameters
 
