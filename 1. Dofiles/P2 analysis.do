@@ -83,7 +83,7 @@ lab var payoff_2_rebase "Low support ({&nu}{sub:{&phi}} = `nu2')"
 lab var payoff_3_rebase "Moderate support ({&nu}{sub:{&phi}} = `nu3')"
 lab var payoff_4_rebase "Strong support ({&nu}{sub:{&phi}} = `nu4')"
 
-twoway line payoff_1_rebase payoff_2_rebase payoff_3_rebase payoff_4_rebase OI, xtitle("Rank-and-file organizational identification ({&beta}{sub:2})") ytitle("Firm performance ({&Pi}) relative to {&beta}{sub:2} = 0") xlab(, noticks) lpattern(dash dot dash_dot shortdash) lcolor(red blue green purple) xlab(, format(%4.1f)) ylab(, format(%4.1f))
+twoway line payoff_1_rebase payoff_2_rebase payoff_3_rebase payoff_4_rebase OI, xtitle("Rank-and-file organizational identification ({&beta}{sub:2})") ytitle("Firm performance ({&Pi}) relative to {&beta}{sub:2} = 0") xlab(, noticks) lpattern(dash dot dash_dot shortdash) lcolor(red blue green purple) xlab(, format(%4.1f)) ylab(, format(%4.2f))
 graph export "$output/`f_pay'.svg", replace 
 
 restore
