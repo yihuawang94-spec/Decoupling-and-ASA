@@ -27,6 +27,12 @@ keep if firm ==1 & id == 1
 * Figure 4, column a: weak normative pressure (mu = 1.2)
 loc col "a"
 
+* Belief-environment values for the legends, with a leading zero (e.g. 0.1)
+forval k = 1 / 4 {
+	loc nu`k' = string(${phi_`k'})
+	if ${phi_`k'} < 1 loc nu`k' "0`nu`k''"
+}
+
 foreach time in $halftime $maxtime {
 
 preserve
@@ -42,10 +48,10 @@ else {
 }
 loc f_phi "Supplementary/Figure 4`col' belief t`time'"
 
-lab var decouple_freq_1 "No support ({&nu}{sub:{&phi}} = $phi_1)"
-lab var decouple_freq_2 "Low support ({&nu}{sub:{&phi}} = $phi_2)"
-lab var decouple_freq_3 "Moderate support ({&nu}{sub:{&phi}} = $phi_3)"
-lab var decouple_freq_4 "Strong support ({&nu}{sub:{&phi}} = $phi_4)"
+lab var decouple_freq_1 "No support ({&nu}{sub:{&phi}} = `nu1')"
+lab var decouple_freq_2 "Low support ({&nu}{sub:{&phi}} = `nu2')"
+lab var decouple_freq_3 "Moderate support ({&nu}{sub:{&phi}} = `nu3')"
+lab var decouple_freq_4 "Strong support ({&nu}{sub:{&phi}} = `nu4')"
 
 twoway line decouple_freq_1 decouple_freq_2 decouple_freq_3 decouple_freq_4 OI, xtitle("Rank-and-file organizational identification ({&beta}{sub:2})") ytitle("Policy-practice gap (D)") xlab(, noticks) lpattern(dash  dot   dash_dot  shortdash) lcolor(red  blue green purple ) xlab(, format(%4.1f)) ylab(, format(%4.1f))
 graph export "$output/`f_gap'.svg", replace 
@@ -62,20 +68,20 @@ bys phi_std_helper time: egen payoff_rebase_`i' = max(payoff_rebase_h_`i')
 g payoff_`i'_rebase = payoff_`i' - payoff_rebase_`i'
 }
 
-lab var phi_1_rebase "No support ({&nu}{sub:{&phi}} = $phi_1)"
-lab var phi_2_rebase "Low support ({&nu}{sub:{&phi}} = $phi_2)"
-lab var phi_3_rebase "Moderate support ({&nu}{sub:{&phi}} = $phi_3)"
-lab var phi_4_rebase "Strong support ({&nu}{sub:{&phi}} = $phi_4)"
+lab var phi_1_rebase "No support ({&nu}{sub:{&phi}} = `nu1')"
+lab var phi_2_rebase "Low support ({&nu}{sub:{&phi}} = `nu2')"
+lab var phi_3_rebase "Moderate support ({&nu}{sub:{&phi}} = `nu3')"
+lab var phi_4_rebase "Strong support ({&nu}{sub:{&phi}} = `nu4')"
 
 sort firm panel norm_strength norm_strength_eff time phi_std phi_std_helper id TMT OI
 
 twoway line phi_1_rebase phi_2_rebase phi_3_rebase phi_4_rebase OI, xtitle("Rank-and-file organizational identification ({&beta}{sub:2})") ytitle("Pro-normative belief ({&phi}) relative to {&beta}{sub:2} = 0") xlab(, noticks) lpattern(dash dot dash_dot shortdash) lcolor(red blue green purple) xlab(, format(%4.1f)) ylab(, format(%4.1f))
 graph export "$output/`f_phi'.svg", replace 
 
-lab var payoff_1_rebase "No support ({&nu}{sub:{&phi}} = $phi_1)"
-lab var payoff_2_rebase "Low support ({&nu}{sub:{&phi}} = $phi_2)"
-lab var payoff_3_rebase "Moderate support ({&nu}{sub:{&phi}} = $phi_3)"
-lab var payoff_4_rebase "Strong support ({&nu}{sub:{&phi}} = $phi_4)"
+lab var payoff_1_rebase "No support ({&nu}{sub:{&phi}} = `nu1')"
+lab var payoff_2_rebase "Low support ({&nu}{sub:{&phi}} = `nu2')"
+lab var payoff_3_rebase "Moderate support ({&nu}{sub:{&phi}} = `nu3')"
+lab var payoff_4_rebase "Strong support ({&nu}{sub:{&phi}} = `nu4')"
 
 twoway line payoff_1_rebase payoff_2_rebase payoff_3_rebase payoff_4_rebase OI, xtitle("Rank-and-file organizational identification ({&beta}{sub:2})") ytitle("Firm performance ({&Pi}) relative to {&beta}{sub:2} = 0") xlab(, noticks) lpattern(dash dot dash_dot shortdash) lcolor(red blue green purple) xlab(, format(%4.1f)) ylab(, format(%4.1f))
 graph export "$output/`f_pay'.svg", replace 
